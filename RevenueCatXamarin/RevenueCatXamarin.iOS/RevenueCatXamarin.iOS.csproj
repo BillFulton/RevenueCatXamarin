@@ -68,6 +68,11 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="InAppPurchases\InAppPurchasesIOS.cs" />
+    <Compile Include="Resx\S.Designer.cs">
+      <DependentUpon>S.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -123,8 +128,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
+    <PackageReference Include="Xamarin.RevenueCat.iOS">
+      <Version>4.9.0.2</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.RevenueCat.iOS.Extensions">
+      <Version>4.9.0.4</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -132,5 +143,16 @@
       <Project>{D1E9C526-2B30-424C-979C-1BEC911B9E72}</Project>
       <Name>RevenueCatXamarin</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="InAppPurchases\" />
+    <Folder Include="Resx\" />
+    <Folder Include="Utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resx\S.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>S.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

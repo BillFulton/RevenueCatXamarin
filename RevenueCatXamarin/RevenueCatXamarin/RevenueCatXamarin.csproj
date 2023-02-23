@@ -11,7 +11,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2545" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Views\" />
+    <None Remove="Views\InAppPurchases\" />
+    <None Remove="Resx\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\" />
+    <Folder Include="Views\InAppPurchases\" />
+    <Folder Include="Resx\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resx\T.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>T.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resx\T.Designer.cs">
+      <DependentUpon>T.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
