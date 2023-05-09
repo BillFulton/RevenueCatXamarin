@@ -109,16 +109,45 @@ namespace RevenueCatXamarin.Droid.InAppPurchases
                 string diagnosis = ex.PurchasesError.UnderlyingErrorMessage;        // Debug - real reason for the problem
                 RevenueCatXamarin.Droid.Utilities.Show_Dialog msg = new Utilities.Show_Dialog ();
                 if ( description.Contains ( "problem with the store" ) )
+                {
                     description = S.StoreProblemInDetail;       // Ask user to verify logged in to Google and re-start app
-                await msg.ShowDialogAsync ( S.Warning, description );
+                    await msg.ShowDialogAsync ( S.Warning, description );
 
-                // Continuing is possible in some circumstances
-                return;
+                    // Continuing is possible in some circumstances
+                    return;
+                }
+                else if ( ex.PurchasesError.Code == PurchasesErrorCode.PurchaseNotAllowedError )
+                {
+                    // Results from Google Play status BILLING_UNAVAILABLE
+                    // Likely causes:
+                    //      The Play Store app on the user's device is out of date
+                    //      Google Play is unable to charge the user's payment method
+                    //      The user is an enterprise user and their enterprise admin has disabled users from making purchases
+                    //      The user is in a country not supported by Google
+                    // Advise user then allow user to continue
+
+                    string message = S.BillingUnavailable1 + Environment.NewLine  + Environment.NewLine +
+				     S.BillingUnavailable2 + Environment.NewLine  + Environment.NewLine +
+				     S.BillingUnavailable3 + Environment.NewLine  +
+				     S.BillingUnavailable4 + Environment.NewLine  +
+				     S.BillingUnavailable5 + Environment.NewLine  +
+				     S.BillingUnavailable6 + Environment.NewLine + Environment.NewLine +
+				     S.BillingUnavailable7;
+                                 
+                    await msg.ShowDialogAsync ( S.Warning, message );
+                    return;
+                }
+		else
+                {
+                    MyUtil.WriteLogFile ( S.Exception, ex.ToString () );
+			throw new Exception ( "In InAppPurchases.InitialiseRevenueCatAsync #1" + ex.ToString () + " " +
+                        description + " UnderlyingError: " + diagnosis, ex.InnerException );
+                }
             }
             catch ( Exception ex )
             {
                 MyUtil.WriteLogFile ( S.Exception, ex.ToString () );
-				throw new Exception ( "In InAppPurchases.InitialiseRevenueCatAsync " + ex.ToString(), ex.InnerException );
+		throw new Exception ( "In InAppPurchases.InitialiseRevenueCatAsync " + ex.ToString(), ex.InnerException );
             }
         }
 
